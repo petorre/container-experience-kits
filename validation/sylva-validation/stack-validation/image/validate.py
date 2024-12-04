@@ -48,10 +48,13 @@ class Validate:
             self.ready = False
             self.resj["error"] = f"Initialization error: {traceback.format_exc()}"
 
-    def run(self, test, node):  # test = run only that one test case, or None to run all;  node = test only one worker node, or None to test all
+    def run(self, test, label, node):  # test = run only that one test case, or None to run all;  label = test only labeled nodes, or None to test all;  node = test only one worker node, or None to test all
         if not self.ready:
             return
         self.start_time = time.time()
+        #
+        # implement logic to check that minimum of 1 worker node has given label
+        #
         try:
             if node != None:
                 self.NODES.index(node)
@@ -318,6 +321,7 @@ if __name__ == "__main__":
     configfile = CONFIGFILE
     debug = False
     test = None  # if only single test case should be run
+    label = None  # if only labeled nodes should be tested
     node = None  # if only single node should be tested
     for a in sys.argv[1:]:
         b = a.split("=")
@@ -327,11 +331,13 @@ if __name__ == "__main__":
             configfile = b[1]
         elif b[0] == "--test":
             test = b[1]
+        #elif b[0] == "--label":
+        #    label = b[1]
         elif b[0] == "--node":
             node = b[1]
         else:
             usage()
     val = Validate(configfile, debug)
     if val.ready:
-        val.run(test, node)
+        val.run(test, label, node)
     print(json.dumps(val.endresj, indent=2))
