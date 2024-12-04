@@ -27,7 +27,7 @@
       "cpupower": {
         "name": "cpupower"
       },
-      "kernelrt": {
+      "comment_kernelrt": {
         "name": "kernelrt"
       },
       "tunedrt": {
@@ -196,6 +196,7 @@
       "preemptName": "PREEMPT_RT"
     },
     {
+      "comment": "not ready yet because of ethtool -T working over PF and not VF",
       "name": "validateTSN",
       "description": "Validate timing accuracy with PTP Hardware Clock",
       "ra2Spec": "ra2.ntw.027",

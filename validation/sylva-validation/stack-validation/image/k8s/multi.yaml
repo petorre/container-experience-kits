@@ -62,6 +62,15 @@ spec:
             nextvenid=$( echo "${pciids}" | awk -vv="${venid}" ' $1!="#" && $1!="C" { split($0,a,"\t"); if ( f==1 && a[1]!="" ) { split(a[1],b," "); print b[1]; f=0; }; if (a[1]~v) f=1; } ' );
             echo "${pciids}" | awk -vv="${venid}" -vnv="${nextvenid}" -vd="${devid}" ' $1!="#" && $1!="C" { split($0,a,"\t"); if ( a[1]~v && f==0 ) { f=1; } } f==1 { split($0,a,"\t"); if ( a[1]~nv ) f=2; else if ( $1==d ) { print $0; p=1; } } END { if ( p!=1 ) print d " (unknown)"; } ';
           done;
+          unamerv=` uname -rv `;
+          syskernelrealtime=-1;
+          if [ -e /sys/kernel/realtime ]; then
+            syskernelrealtime=` cat /sys/kernel/realtime `;
+          fi;
+          proccmdline=` cat /proc/cmdline `;
+          echo "unamerv=${unamerv}";
+          echo "syskernelrealtime=${syskernelrealtime}";
+          echo "proccmdline=${proccmdline}";
           sleep infinity;
         securityContext:
           runAsNonRoot: true

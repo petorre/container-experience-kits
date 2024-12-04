@@ -55,7 +55,15 @@ Will start Docker container, then in it do:
 ./validate.sh [--only <testName>] [--debug]
 ```
 
---debug forces debug option even if config.json has "debug": false .
+or
+
+```
+./validate.py [--only validateRealTime] [--debug]
+```
+
+where ```--debug``` forces debug option even if config.json has "debug": false .
+
+For Robot-based test cases do:
 
 ```
 cd robot/tests
@@ -257,6 +265,33 @@ then follow Usage like above.
 ```
 
 ```
+~ $ ./validate.py --debug
+{
+  "stackValidation": {
+    "testCases": [
+      {
+        "name": "validateRT",
+        "description": "Validate Real-Time versions and/or configurations in BIOS, kernel and OS services",
+        "ra2Spec": "ra2.ch.026",
+        "nodes": [
+          {
+            "name": "kind-control-plane",
+            "debug": "cpussamehwfreq=NotAvailable; unamerv=5.14.0-533.el9.x86_64 #1 SMP PREEMPT_DYNAMIC Fri Nov 22 15:05:06 UTC 2024; syskernelrealtime=-1; proccmdline=BOOT_IMAGE=(hd0,gpt2)/boot/vmlinuz-5.14.0-533.el9.x86_64 root=UUID=b8fc4b5b-bf10-423d-8c8c-80e2b21802a0 ro console=ttyS0,115200n8 console=tty0 net.ifnames=0 rd.blacklist=nouveau nvme_core.io_timeout=4294967295 crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M",
+            "pass": "false",
+            "error": "Cannot find pods test-tunedrt"
+          }
+        ]
+      }
+    ],
+    "timeStamps": {
+      "startTime": "Mon Dec  2 10:27:53 UTC 2024",
+      "stopTime": "Mon Dec  2 10:29:16 UTC 2024"
+    }
+  }
+}
+```
+
+```
 # cd robot/tests
 # robot rc2.robot
 ==============================================================================
@@ -358,8 +393,8 @@ sudo /usr/local/bin/k3s-killall.sh
 
 Various test cases were tested on worker nodes that are bare metal or in VMs, on servers with Intel Xeon Scalable Processors and Intel Ethernet, using these Kubernetes distributions and Linux:
 
-* Kind v0.18.0 on worker node with CentOS 9 Stream
-* k3s v1.26.4+k3s1 on CentOS 9 Stream
+* Kind v0.25.0 on worker node with CentOS 9 Stream
+* k3s v1.29.5+k3s1 on CentOS 9 Stream
 * Intel Network and Edge Container Bare Metal Reference System Architecture on Ubuntu 22.04RT
 * Red Hat OpenShift 4.11.25 v1.24.6+5658434 on CoreOS
 * AWS EKS v1.24.8-eks-ffeb93d on Amazon Linux 2 on EC2 c6i
