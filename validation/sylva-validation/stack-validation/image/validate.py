@@ -57,6 +57,7 @@ class Validate:
                 self.NODES.index(node)
         except ValueError:
             self.resj["error"] = f"Cannot find node {node}."
+            self.stop_time = time.time()
             return
         self.node = node
         if test == None:
